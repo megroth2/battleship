@@ -6,6 +6,7 @@ class Cell
   def initialize(coordinate)
     @coordinate = coordinate
     @ship = nil
+    @status = "."
   end
 
   def empty?
@@ -18,6 +19,12 @@ class Cell
 
   def fired_upon?
     @ship.health != @ship.length
+  end
+
+  def fire_upon
+    status = "M" if ship = nil
+    status = "H" && @ship.health -= 1 if ship != nil
+    status = "X" if @ship.health == 0
   end
 
 end
