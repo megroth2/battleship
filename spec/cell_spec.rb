@@ -1,9 +1,5 @@
 require 'spec_helper'
 
-
-
-
-
 RSpec.describe Cell do
   it 'exists' do
     cell = Cell.new("B4")
@@ -34,7 +30,7 @@ RSpec.describe Cell do
     expect(cell.empty?).to eq(false)
   end
 
-  
+
 
 
 
