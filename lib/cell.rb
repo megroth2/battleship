@@ -1,7 +1,8 @@
 class Cell
 
   attr_reader :coordinate,
-              :ship
+              :ship,
+              :status
 
   def initialize(coordinate)
     @coordinate = coordinate
@@ -14,7 +15,7 @@ class Cell
   end
 
   def place_ship(ship)
-    @ship = ship
+    @ship = ship 
   end
 
   def fired_upon?
@@ -26,10 +27,23 @@ class Cell
     if empty?
       @status = "M"
     elsif !empty? && @ship.health != 0
-      @status = "H" && @ship.health -= 1
-    else !empty? && @ship.health == 0
+      @status = "H"
+      @ship.hit
+    else !empty? && @ship.sunk?
       @status = "X"
     end
   end
+
+  def render(word = false)
+    if word == true && !empty?
+      return "S"
+    else
+    @status
+    end
+  end
+
+
+
+
 
 end
