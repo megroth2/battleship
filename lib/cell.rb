@@ -18,13 +18,18 @@ class Cell
   end
 
   def fired_upon?
-    @ship.health != @ship.length
+    @status != "."
   end
 
   def fire_upon
-    status = "M" if ship = nil
-    status = "H" && @ship.health -= 1 if ship != nil
-    status = "X" if @ship.health == 0
+    
+    if empty?
+      @status = "M"
+    elsif !empty? && @ship.health != 0
+      @status = "H" && @ship.health -= 1
+    else !empty? && @ship.health == 0
+      @status = "X"
+    end
   end
 
 end

@@ -49,7 +49,6 @@ RSpec.describe Cell do
   it 'can be fired upon' do
     cell = Cell.new("B4")
     cell.fire_upon
-
     expect(cell.fired_upon?).to be(true)
   end
 
