@@ -42,6 +42,15 @@ class Board
     (letters.each_cons(2).all? {|a, b| b == a } && numbers.each_cons(2).all? {|a, b| b == a + 1 }) || (numbers.each_cons(2).all? {|a, b| b == a } && letters.each_cons(2).all? {|a, b| b == a + 1 })
   end
     
+  def place(ship, coordinates)
+    if valid_placement?(ship, coordinates)
+      coordinates.each do |coordinate|
+        @cells[coordinate].place_ship(ship)
+      end
+    end
+
+  end
+
 
 
 end
