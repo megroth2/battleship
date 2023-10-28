@@ -100,7 +100,7 @@ RSpec.describe Cell do
     cruiser.hit
     cruiser.hit
     expect(cruiser.sunk?).to eq(true)
-    # expect(cell_2.render).to eq("X")
+    expect(cell_2.render).to eq("X")
   end
 
  
