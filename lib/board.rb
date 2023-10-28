@@ -50,6 +50,12 @@ class Board
     end
   end
 
-
+  def render(word = false)
+    "  1 2 3 4 \n" +
+    "A #{@cells["A1"].render(word)} #{@cells["A2"].render(word)} #{@cells["A3"].render(word)} #{@cells["A4"].render(word)} \n" + 
+    "B #{@cells["B1"].render(word)} #{@cells["B2"].render(word)} #{@cells["B3"].render(word)} #{@cells["B4"].render(word)} \n" +
+    "C #{@cells["C1"].render(word)} #{@cells["C2"].render(word)} #{@cells["C3"].render(word)} #{@cells["C4"].render(word)} \n" +
+    "D #{@cells["D1"].render(word)} #{@cells["D2"].render(word)} #{@cells["D3"].render(word)} #{@cells["D4"].render(word)} \n"
+  end
 
 end
