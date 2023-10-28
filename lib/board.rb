@@ -26,4 +26,22 @@ class Board
     @cells[coordinate] != nil
   end
 
+  def valid_placement?(ship, coordinates)
+    coordinates.count == ship.length && coordinates_are_consecutive?(ship, coordinates) == true
+  end
+
+  def coordinates_are_consecutive?(ship, coordinates)
+    numbers = []
+    letters = []
+
+    coordinates.each do |coordinate|
+      numbers << coordinate.chars.last.to_i
+      letters << coordinate.chars.first.ord
+    end
+    
+    (letters.each_cons(2).all? {|a, b| b == a } && numbers.each_cons(2).all? {|a, b| b == a + 1 }) || (numbers.each_cons(2).all? {|a, b| b == a } && letters.each_cons(2).all? {|a, b| b == a + 1 })
+  end
+    
+
+
 end
