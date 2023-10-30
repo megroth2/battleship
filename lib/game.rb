@@ -10,31 +10,23 @@ class Game
     @computer_submarine = Ship.new("Submarine", 2) 
   end
 
-  ## place ships
   def place_ships(ship, coordinates)
     @my_board.place(ship, coordinates)
   end
 
-
-  # generate random coordinates
-  # check if each coordinate is valid
-
-  # check if multiple coordinates are valid together
-  # add to an array and place ship
-
-  def place_computer_ships(ship)
-    temp_ship = Ship.new("Temp",2)
+  def place_computer_ships
+    ## Place Cruiser:
     cruiser_coordinates = []
     
     random_coordinate_1 = @computer_board.random_coordinate
     random_coordinate_2 = @computer_board.random_coordinate
     random_coordinate_3 = @computer_board.random_coordinate
 
-    until @computer_board.valid_placement?(temp_ship, [random_coordinate_1, random_coordinate_2])
+    until @computer_board.valid_placement?(Ship.new("Placeholder Ship",2), [random_coordinate_1, random_coordinate_2])
       random_coordinate_2 = @computer_board.random_coordinate
     end
     
-    until @computer_board.valid_placement?(ship, [random_coordinate_1, random_coordinate_2, random_coordinate_3])
+    until @computer_board.valid_placement?(@computer_cruiser, [random_coordinate_1, random_coordinate_2, random_coordinate_3])
       random_coordinate_3 = @computer_board.random_coordinate
     end
 
@@ -44,23 +36,33 @@ class Game
 
     @computer_board.place(@computer_cruiser, cruiser_coordinates)
 
+    ## Place Submarine
+    submarine_coordinates = []
+
+    random_coordinate_1 = @computer_board.random_coordinate
+    random_coordinate_2 = @computer_board.random_coordinate
+    
+    until @computer_board.valid_placement?(@computer_submarine, [random_coordinate_1, random_coordinate_2])
+      random_coordinate_2 = @computer_board.random_coordinate
+    end
+
+    submarine_coordinates << random_coordinate_1
+    submarine_coordinates << random_coordinate_2
+
+    @computer_board.place(@computer_submarine, submarine_coordinates)
 
   end
 
-  ## is the game over?
-
   def game_over?
     boards = [@my_board, @computer_board]
-      boards.each do |board|
-        board.cells.all? do |name, cell|
-          cell.ship.sunk? if !cell.empty?
-        end
+    boards.each do |board|
+      board.cells.all? do |name, cell|
+        cell.empty? || cell.ship.sunk?
       end
     end
+  end
 
-
-
-  def game_play
+  def take_turn
     if game_over? == false
       render_game_board
     end
