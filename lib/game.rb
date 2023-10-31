@@ -7,12 +7,7 @@ class Game
     @my_cruiser = Ship.new("Cruiser", 3)
     @my_submarine = Ship.new("Submarine", 2) 
     @computer_cruiser = Ship.new("Cruiser", 3)
-    @computer_submarine = Ship.new("Submarine", 2) 
-    @turn_count = 0
-  end
-
-  def place_ships(ship, coordinates)
-    @my_board.place(ship, coordinates)
+    @computer_submarine = Ship.new("Submarine", 2)
   end
 
   ###############
@@ -20,19 +15,16 @@ class Game
   def play(input)
     if input == "p"
       setup_boards
-      # binding.pry
       until game_over?
         take_turn
-        @turn_count += 1
       end
-      #end of game message
+    end_game
     elsif input == "q"
-      # quit game
     end
   end
 
   def setup_boards
-  place_computer_ships
+    place_computer_ships
       
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your two ships."
@@ -114,12 +106,11 @@ class Game
     turn_coordinate = gets.chomp
     puts()
     puts "===================================================="
-    puts "Turn #{turn_count}:"
     puts()
-    until @computer_board.valid_coordinate?(turn_coordinate)
+    puts "You've already fired upon this cell." if @computer_board.cells[turn_coordinate].fired_upon?
+    until @computer_board.valid_coordinate?(turn_coordinate) && !@computer_board.cells[turn_coordinate].fired_upon?
       puts "Please enter a valid coordinate:"
       turn_coordinate = gets.chomp
-      puts "Line 126"
     end
     @computer_board.cells[turn_coordinate].fire_upon
 
@@ -156,15 +147,26 @@ class Game
   end
 
   def game_over?
-    my_board_status = @my_board.cells.all? do |name, cell|
+    @my_board_status = @my_board.cells.all? do |name, cell|
       cell.empty? || cell.ship.sunk?
     end
     
-    computer_board_status = @computer_board.cells.all? do |name, cell|
+    @computer_board_status = @computer_board.cells.all? do |name, cell|
       cell.empty? || cell.ship.sunk?
     end
 
-    my_board_status || computer_board_status
+    @my_board_status || @computer_board_status
+  end
+
+  def end_game
+    render_game_boards
+    if game_over? && @my_board_status
+      puts "I won!"
+      puts ()
+    else game_over? && @computer_board_status
+      puts "You won!"
+      puts ()
+    end
   end
 
   def render_game_boards
@@ -172,7 +174,7 @@ class Game
     puts @computer_board.render
     puts "==============PLAYER BOARD=============="
     puts @my_board.render(true)
-    puts()
+    puts ()
   end
 
 end
