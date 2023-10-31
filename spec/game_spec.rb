@@ -21,23 +21,28 @@ RSpec.describe Game do
     # add a test to make sure there are 5 S's total?
   end
 
-  xit 'evaluates if the game is over' do
+  it 'evaluates if the game is over' do
     game = Game.new
+    game.place_computer_ships
+    cruiser = Ship.new("Cruiser", 3)
+    game.my_board.place(cruiser, ["A1", "A2", "A3"])
 
     expect(game.game_over?).to be(false)
+
+    # Add a test to make sure game_over? == false
   end
 
-  xit 'takes turns' do
-    game = Game.new
+  # xit 'takes turns' do
+  #   game = Game.new
 
-    expect(game.take_turn).to ...
-  end
+  #   expect(game.take_turn).to ...
+  # end
 
-  xit 'renders game board' do
-    game = Game.new
+  # xit 'renders game board' do
+  #   game = Game.new
 
-    expect(game.render_game_board).to ...
-  end
+  #   expect(game.render_game_board).to ...
+  # end
 
 
 end

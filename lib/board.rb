@@ -27,7 +27,9 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    coordinates.all? { |coordinate| @cells[coordinate].empty? } && coordinates.count == ship.length && coordinates_are_consecutive?(ship, coordinates) == true
+    coordinates.all? { |coordinate| @cells[coordinate].empty? } && 
+    coordinates.count == ship.length && 
+    coordinates_are_consecutive?(ship, coordinates) == true
   end
 
   def coordinates_are_empty?(coordinates)
@@ -43,7 +45,10 @@ class Board
       letters << coordinate.chars.first.ord
     end
     
-    (letters.sort.each_cons(2).all? {|a, b| b == a } && numbers.sort.each_cons(2).all? {|a, b| b == a + 1 }) || (numbers.sort.each_cons(2).all? {|a, b| b == a } && letters.sort.each_cons(2).all? {|a, b| b == a + 1 })
+    (letters.sort.each_cons(2).all? {|a, b| b == a } && 
+    numbers.sort.each_cons(2).all? {|a, b| b == a + 1 }) || 
+    (numbers.sort.each_cons(2).all? {|a, b| b == a } && 
+    letters.sort.each_cons(2).all? {|a, b| b == a + 1 })
   end
     
   def place(ship, coordinates)
