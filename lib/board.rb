@@ -30,6 +30,10 @@ class Board
     coordinates.all? { |coordinate| @cells[coordinate].empty? } && coordinates.count == ship.length && coordinates_are_consecutive?(ship, coordinates) == true
   end
 
+  def coordinates_are_empty?(coordinates)
+    coordinates.all? {|coordinate| @cells[coordinate].empty?}
+  end
+
   def coordinates_are_consecutive?(ship, coordinates)
     numbers = []
     letters = []
@@ -39,13 +43,14 @@ class Board
       letters << coordinate.chars.first.ord
     end
     
-    (letters.each_cons(2).all? {|a, b| b == a } && numbers.each_cons(2).all? {|a, b| b == a + 1 }) || (numbers.each_cons(2).all? {|a, b| b == a } && letters.each_cons(2).all? {|a, b| b == a + 1 })
+    (letters.sort.each_cons(2).all? {|a, b| b == a } && numbers.sort.each_cons(2).all? {|a, b| b == a + 1 }) || (numbers.sort.each_cons(2).all? {|a, b| b == a } && letters.sort.each_cons(2).all? {|a, b| b == a + 1 })
   end
     
   def place(ship, coordinates)
     if valid_placement?(ship, coordinates)
       coordinates.each do |coordinate|
         @cells[coordinate].place_ship(ship)
+        true
       end
     end
   end
@@ -57,5 +62,13 @@ class Board
     "C #{@cells["C1"].render(word)} #{@cells["C2"].render(word)} #{@cells["C3"].render(word)} #{@cells["C4"].render(word)} \n" +
     "D #{@cells["D1"].render(word)} #{@cells["D2"].render(word)} #{@cells["D3"].render(word)} #{@cells["D4"].render(word)} \n"
   end
+
+  def random_coordinate
+    coordinate = ""
+    until valid_coordinate?(coordinate)
+      coordinate = @cells.keys.sample
+    end
+    coordinate
+  end 
 
 end
