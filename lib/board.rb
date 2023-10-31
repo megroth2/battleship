@@ -50,6 +50,7 @@ class Board
     if valid_placement?(ship, coordinates)
       coordinates.each do |coordinate|
         @cells[coordinate].place_ship(ship)
+        true
       end
     end
   end

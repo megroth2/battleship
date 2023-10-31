@@ -10,9 +10,9 @@ class Game
     @computer_submarine = Ship.new("Submarine", 2) 
   end
 
-  def place_ships(ship, coordinates)
-    @my_board.place(ship, coordinates)
-  end
+  # def place_ships(ship, coordinates)
+  #   @my_board.place(ship, coordinates)
+  # end
 
   def place_computer_ships
     ## Place Cruiser:
