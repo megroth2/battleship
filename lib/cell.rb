@@ -25,25 +25,23 @@ class Cell
   def fire_upon
     if empty?
       @status = "M"
-    elsif !empty? && @ship.health != 0
+    elsif !empty? && @ship.health > 1
       @status = "H"
       @ship.hit
-    else !empty? && @ship.sunk?
+    else !empty? && @ship.health = 1
       @status = "X"
+      @ship.hit
     end
   end
 
   def render(word = false)
     @status = "X" if !empty? && @ship.sunk?
-    if word == true && !empty?
+    if word == true && !empty? && !fired_upon?
       return "S"
     else
     @status
     end
   end
-
-
-
 
 
 end
