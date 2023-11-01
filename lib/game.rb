@@ -104,6 +104,10 @@ class Game
     render_game_boards
     puts "Enter the coordinate for your shot:"
     turn_coordinate = gets.chomp
+    until @computer_board.valid_coordinate?(turn_coordinate)
+      puts "Please enter a valid coordinate:" 
+      turn_coordinate = gets.chomp
+    end
     puts()
     puts "===================================================="
     puts()
