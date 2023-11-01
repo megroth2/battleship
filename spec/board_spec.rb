@@ -42,7 +42,11 @@ RSpec.describe Board do
     end
 
     it 'validates all coordinates are empty' do
+      board = Board.new
 
+      expect(board.coordinates_are_empty?(["A1", "A2"])).to eq(true)
+      expect(board.coordinates_are_empty?(["C3", "C2"])).to eq(true)
+      expect(board.coordinates_are_empty?(["D4", "C4"])).to eq(true)
     end
 
     it 'validates coordinates are consecutive' do

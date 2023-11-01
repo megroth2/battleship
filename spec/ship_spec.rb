@@ -28,7 +28,4 @@ RSpec.describe Ship do
     expect(cruiser.sunk?).to be (true)
   end
 
-  
-
-
 end
