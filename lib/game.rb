@@ -10,8 +10,6 @@ class Game
     @computer_submarine = Ship.new("Submarine", 2)
   end
 
-  ###############
-
   def play(input)
     if input == "p"
       setup_boards
@@ -21,6 +19,42 @@ class Game
     end_game
     elsif input == "q"
     end
+  end
+  
+  def place_computer_ships
+    ## Place Cruiser:
+    random_coordinate_1 = @computer_board.random_coordinate
+    random_coordinate_2 = @computer_board.random_coordinate
+    random_coordinate_3 = @computer_board.random_coordinate
+
+    until @computer_board.valid_placement?(Ship.new("Placeholder Ship",2), [random_coordinate_1, random_coordinate_2])
+      random_coordinate_2 = @computer_board.random_coordinate
+    end
+    
+    until @computer_board.valid_placement?(@computer_cruiser, [random_coordinate_1, random_coordinate_2, random_coordinate_3])
+      random_coordinate_3 = @computer_board.random_coordinate
+    end
+
+    cruiser_coordinates = []
+    cruiser_coordinates << random_coordinate_1
+    cruiser_coordinates << random_coordinate_2
+    cruiser_coordinates << random_coordinate_3
+
+    @computer_board.place(@computer_cruiser, cruiser_coordinates)
+
+    ## Place Submarine
+    random_coordinate_1 = @computer_board.random_coordinate
+    random_coordinate_2 = @computer_board.random_coordinate
+    
+    until @computer_board.valid_placement?(@computer_submarine, [random_coordinate_1, random_coordinate_2])
+      random_coordinate_2 = @computer_board.random_coordinate
+    end
+
+    submarine_coordinates = []
+    submarine_coordinates << random_coordinate_1
+    submarine_coordinates << random_coordinate_2
+
+    @computer_board.place(@computer_submarine, submarine_coordinates)
   end
 
   def setup_boards
@@ -62,48 +96,22 @@ class Game
     @my_board.place(@my_submarine, submarine_coordinates)
   end
 
-  def place_computer_ships
-    ## Place Cruiser:
-    
-    random_coordinate_1 = @computer_board.random_coordinate
-    random_coordinate_2 = @computer_board.random_coordinate
-    random_coordinate_3 = @computer_board.random_coordinate
-
-    until @computer_board.valid_placement?(Ship.new("Placeholder Ship",2), [random_coordinate_1, random_coordinate_2])
-      random_coordinate_2 = @computer_board.random_coordinate
-    end
-    
-    until @computer_board.valid_placement?(@computer_cruiser, [random_coordinate_1, random_coordinate_2, random_coordinate_3])
-      random_coordinate_3 = @computer_board.random_coordinate
-    end
-
-    cruiser_coordinates = []
-    cruiser_coordinates << random_coordinate_1
-    cruiser_coordinates << random_coordinate_2
-    cruiser_coordinates << random_coordinate_3
-
-    @computer_board.place(@computer_cruiser, cruiser_coordinates)
-
-    ## Place Submarine
-    random_coordinate_1 = @computer_board.random_coordinate
-    random_coordinate_2 = @computer_board.random_coordinate
-    
-    until @computer_board.valid_placement?(@computer_submarine, [random_coordinate_1, random_coordinate_2])
-      random_coordinate_2 = @computer_board.random_coordinate
-    end
-
-    submarine_coordinates = []
-    submarine_coordinates << random_coordinate_1
-    submarine_coordinates << random_coordinate_2
-
-    @computer_board.place(@computer_submarine, submarine_coordinates)
-
+  def render_game_boards
+    puts "=============COMPUTER BOARD============="
+    puts @computer_board.render
+    puts "==============PLAYER BOARD=============="
+    puts @my_board.render(true)
+    puts ()
   end
 
   def take_turn
     render_game_boards
     puts "Enter the coordinate for your shot:"
     turn_coordinate = gets.chomp
+    until @computer_board.valid_coordinate?(turn_coordinate)
+      puts "Please enter a valid coordinate:" 
+      turn_coordinate = gets.chomp
+    end
     puts()
     puts "===================================================="
     puts()
@@ -167,14 +175,6 @@ class Game
       puts "You won!"
       puts ()
     end
-  end
-
-  def render_game_boards
-    puts "=============COMPUTER BOARD============="
-    puts @computer_board.render
-    puts "==============PLAYER BOARD=============="
-    puts @my_board.render(true)
-    puts ()
   end
 
 end
